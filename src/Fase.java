@@ -1,3 +1,3 @@
 public abstract class Fase {
-    public abstract Boolean AcaoFase(Leo leo);
+    public abstract Boolean Jogar(Leo leo);
 }

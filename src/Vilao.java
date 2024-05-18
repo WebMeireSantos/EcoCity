@@ -1,6 +1,11 @@
 public class Vilao extends Personagem {
     public Vilao() {
         super();
-        SetVida(100);
+        SetVida(10);
+    }
+
+    public Vilao(int vida) {
+        super();
+        SetVida(vida);
     }
 }

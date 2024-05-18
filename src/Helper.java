@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Helper {
@@ -6,19 +7,12 @@ public class Helper {
         System.out.flush();
     }
 
-    public static void MensagemContinuar(Scanner ler) {
+    public static void MensagemContinuar() {
+        Scanner ler = new Scanner(System.in);
         System.out.println("Dê enter para continuar");
 
         ler.nextLine();
 
         Helper.LimparTela();
-    }
-
-    public static Integer ValidarInteiro(Scanner ler) {
-        while (!ler.hasNextInt()) {
-            System.out.println("O valor informado inválido");
-            ler.nextLine();
-        }
-        return ler.nextInt();
     }
 }

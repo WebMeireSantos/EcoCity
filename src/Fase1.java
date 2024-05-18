@@ -6,19 +6,19 @@ public class Fase1 extends Fase {
 
     private Random gerador = new Random();
 
-    final String[][] lixos;
+    final String[][] ataques;
 
     final String[] categorias;
 
     public Fase1() {
         super();
-        lixos = new String[][] {
+        ataques = new String[][] {
                 { "caixinha de leite", "papel" },
                 { "garrafa pet", "plástico" },
                 { "latinha", "alumínio" },
                 { "casca de banana", "orgânico" },
                 { "canudo de plástico", "plástico" },
-                { "cascas de frutas", "orgânico" },
+                { "restos de alimentos", "orgânico" },
                 { "livros", "papel" },
                 { "garrafa", "vidro" },
                 { "caixa de sapato", "papel" },
@@ -33,12 +33,11 @@ public class Fase1 extends Fase {
     }
 
     @Override
-    public Boolean AcaoFase(Leo leo) {
-        Scanner ler = new Scanner(System.in);
+    public Boolean Jogar(Leo leo) {
 
         Vilao vilao = new Vilao();
 
-        IntroducaoFase(ler);
+        IntroducaoFase();
 
         // loop de jogo
         while (leo.GetVida() > 0 && vilao.GetVida() > 0) {
@@ -47,14 +46,14 @@ public class Fase1 extends Fase {
 
             ExibirOpcoes();
 
-            if (ValidaEscolha(ataque, ler)) {
+            if (ValidarEscolha(ataque)) {
                 vilao.DiminuirVida(10);
                 System.out.println("Muito bem, você descartou corretamente\n");
             } else {
                 leo.DiminuirVida(10);
                 System.out.println("Que pena, resposta errada");
                 System.out.println(
-                        String.format("O descarte correto para %s era %s\n", lixos[ataque][0], lixos[ataque][1]));
+                        String.format("O descarte correto para %s era %s\n", ataques[ataque][0], ataques[ataque][1]));
             }
 
             System.out.println("Leo: " + leo.GetVida() + " de XP");
@@ -66,7 +65,8 @@ public class Fase1 extends Fase {
         Helper.LimparTela();
 
         if (leo.GetVida() > 0) {
-            System.out.println("Leo derrotou o Capitão Lixo e adquiriu 'Resistência ao Odor' !");
+            System.out.println("\nLeo derrotou o Capitão Lixo e adquiriu 'Resistência ao Odor' !\n");
+            Helper.MensagemContinuar();
             return true;
         }
 
@@ -74,7 +74,9 @@ public class Fase1 extends Fase {
                 "Leo infelizmente não conseguiu derrotar o Capitão Lixo e desmaiou com o cheiro terrível que o cercava!\n");
         System.out.println("Tentar novamente (1- Sim / 2 - Não)?");
 
-        int escolha = Helper.ValidarInteiro(ler);
+        Scanner ler = new Scanner(System.in);
+        int escolha = Integer.parseInt(ler.nextLine());
+        ler.close();
 
         if (escolha == 2) {
             System.exit(0);
@@ -86,30 +88,22 @@ public class Fase1 extends Fase {
 
     }
 
-    private void IntroducaoFase(Scanner ler) {
+    private void IntroducaoFase() {
 
-        // Helper.MensagemContinuar(ler);
-        System.out.println("Dê enter para continuar");
-
-        ler.nextLine();
-
-        Helper.LimparTela();
+        Helper.MensagemContinuar();
 
         System.out.println("Fase 1 - Capitão Lixo");
         System.out.println(
-                """
-                        \nEm uma manhã ensolarada, Leo decide explorar as ruas da cidade em busca de novos indícios sobre o aumento da poluição que vem observando.
-                        Rapidamente, um odor desagradável invade suas narinas, quando se depara com uma cena desoladora: um monte de lixo se acumula, formando o início de um verdadeiro lixão a céu aberto.
-                        Este é o território do Capitão Lixo, conhecido pelas crianças do bairro por recolher o lixo e acumula-los a frente da sua própria casa.""");
+                "\nEm uma manhã ensolarada, Leo decide explorar as ruas da cidade em busca de novos indícios sobre o aumento da poluição que vem observando.");
+        System.out.println(
+                "Rapidamente, um odor desagradável invade suas narinas, quando se depara com uma cena desoladora: um monte de lixo se acumula, formando o início de um verdadeiro lixão a céu aberto.");
+        System.out.println(
+                "Este é o território do Capitão Lixo, conhecido pelas crianças do bairro por recolher o lixo e acumula-los a frente da sua própria casa.");
 
         System.out.println("\nAo ser atacado com o lixo do Capitão Lixo, defina o descarte correto");
 
-        // Helper.MensagemContinuar(ler);
-        System.out.println("Dê enter para continuar");
+        Helper.MensagemContinuar();
 
-        ler.nextLine();
-
-        Helper.LimparTela();
     }
 
     // Exibe as escolhas disponiveis
@@ -122,19 +116,20 @@ public class Fase1 extends Fase {
     }
 
     // Checa se a escolha do descarte equivale a categoria do lixo atacado
-    private boolean ValidaEscolha(int lixo, Scanner ler) {
+    private boolean ValidarEscolha(int escolhaVilao) {
 
-        int escolha = Helper.ValidarInteiro(ler);
+        Scanner ler = new Scanner(System.in);
+        int escolha = Integer.parseInt(ler.nextLine());
 
         while (escolha < 0 || escolha > categorias.length) {
+            ler = new Scanner(System.in);
             System.out.println("O valor informado inválido");
-            escolha = ler.nextInt();
+            escolha = Integer.parseInt(ler.nextLine());
+            ler.close();
         }
 
-        Helper.LimparTela();
-
         String categoriaEscolhida = categorias[escolha - 1];
-        String categoriaLixoAtacada = lixos[lixo][1];
+        String categoriaLixoAtacada = ataques[escolhaVilao][1];
 
         if (categoriaEscolhida == categoriaLixoAtacada) {
             return true;
@@ -146,9 +141,9 @@ public class Fase1 extends Fase {
     // Retorna o nome do lixo baseado no numero da lista
     private int ObterAtaque() {
         // Gera um numero aleatorio entre 1 e o tamanho da lista de lixos
-        int ataque = gerador.nextInt(lixos.length);
+        int ataque = gerador.nextInt(ataques.length);
 
-        System.out.println(String.format("O Capitão Lixo atacou com %s.", lixos[ataque][0]));
+        System.out.println(String.format("\nO Capitão Lixo atacou com %s.", ataques[ataque][0]));
 
         return ataque;
     }
