@@ -1,152 +1,155 @@
-import java.util.Scanner;
+
 import java.util.Random;
+import java.util.Scanner;
 
-public class Fase1 {
+public class Fase1 extends Fase {
 
-    private boolean ganhou = false;
-    private boolean perdeu = false;
-    private int vidaInimigo = 100;
+    private Random gerador = new Random();
 
-    private String[][] lixos = {
-            { "caixinha de leite", "papel" },
-            { "garrafa pet", "plástico" },
-            { "latinha", "alumínio" },
-            { "casca de banana", "orgânico" },
-            { "canudo de plástico", "plástico" },
-            { "cascas de frutas", "orgânico" },
-            { "livros", "papel" },
-            { "garrafa", "vidro" },
-            { "caixa de sapato", "papel" },
-            { "panela de alumínio", "alumínio" },
-            { "pote de sorvete", "plástico" }
-    };
+    final String[][] lixos;
 
-    private String[] reciclaveis = {
-            "papel", "plástico", "alumínio", "orgânico", "vidro", "bateria"
-    };
+    final String[] categorias;
 
-    public static void limpaTela() {  
-        System.out.print("\033[H\033[2J");  
-        System.out.flush();  
-    }  
+    public Fase1() {
+        super();
+        lixos = new String[][] {
+                { "caixinha de leite", "papel" },
+                { "garrafa pet", "plástico" },
+                { "latinha", "alumínio" },
+                { "casca de banana", "orgânico" },
+                { "canudo de plástico", "plástico" },
+                { "cascas de frutas", "orgânico" },
+                { "livros", "papel" },
+                { "garrafa", "vidro" },
+                { "caixa de sapato", "papel" },
+                { "panela de alumínio", "alumínio" },
+                { "pote de sorvete", "plástico" },
+                { "pilha", "bateria" }
+        };
 
-    //Exibe as escolhas disponiveis
-    private void exibeEscolhas(){
-        for (int j = 0; j < reciclaveis.length; j++) {
-            System.out.println(String.format("%s - %s", j + 1, reciclaveis[j]));
-        }
+        categorias = new String[] {
+                "papel", "plástico", "alumínio", "orgânico", "vidro", "bateria"
+        };
     }
 
-
-    //Checa se a escolha do descarte equivale ao lixo atacado
-    private boolean escolhaCorreta(int lixo, int escolha){
-
-        String tipo = reciclaveis[escolha - 1];
-        String ataque = lixos[lixo - 1][0];
-
-        for(int i = 0; i < lixos.length - 1; i++){
-            if (lixos[i][0] == ataque && lixos[i][1] == tipo)
-                return true;
-        }
-        return false;
-    }
-
-    //Retorna o nome do lixo baseado no numero da lista
-    private String lixo(int num){
-        return lixos[num - 1][0];
-    }
-
-
-
-
-
-
-    public void Acaofase1(Personagem personagem) {
-
-        personagem.setVida(100); //restaura vida do Leo / personagem
-        vidaInimigo = 100;            //restaura vida do inimigo
-        ganhou = false;
-        perdeu = false;
-
+    @Override
+    public Boolean AcaoFase(Leo leo) {
         Scanner ler = new Scanner(System.in);
-        Random gerador = new Random();
 
-        System.out.println("\n\nFase 1 - Capitão Lixo, digite algo pra continuar");
+        Vilao vilao = new Vilao();
 
-        ler.nextLine();
+        IntroducaoFase(ler);
 
-        limpaTela();
+        // loop de jogo
+        while (leo.GetVida() > 0 && vilao.GetVida() > 0) {
 
-        System.out.println("\nEm uma manhã ensolarada, Leo decide explorar as ruas da cidade em busca de novos indícios sobre o aumento da poluição que vem observando. Rapidamente, um odor desagradável invade suas narinas, quando se depara com uma cena desoladora: um monte de lixo se acumula, formando o início de um verdadeiro lixão a céu aberto. Este é o território do Capitão Lixo, conhecido pelas crianças do bairro por recolher o lixo e acumula-los a frente da sua própria casa.");
+            int ataque = ObterAtaque();
 
-        System.out.println("\nAo ser atacado com o lixo do Capitão Lixo, defina o descarte correto");
-        System.out.println("Digite algo para continuar");
+            ExibirOpcoes();
 
-        ler.nextLine();
-        limpaTela();
-
-        int ataque = 0;
-
-        //loop de jogo
-        while(ganhou == false && perdeu == false){
-
-            ataque = gerador.nextInt(lixos.length - 1) + 1; //Gera um numero aleatorio entre 1 e o tamanho da lista de lixos
-
-            System.out.println(String.format("O Capitão Lixo atacou com %s.", lixo(ataque)));
-            System.out.println("\nEscolha onde deve ser o descarte correto");
-
-            exibeEscolhas();
-
-            int escolha = Integer.parseInt(ler.nextLine());
-
-            limpaTela();
-
-            if (escolhaCorreta(ataque, escolha)){
-                vidaInimigo = vidaInimigo - 10;
+            if (ValidaEscolha(ataque, ler)) {
+                vilao.DiminuirVida(10);
                 System.out.println("Muito bem, você descartou corretamente\n");
-            }
-
-            else {
-                personagem.diminuiVida(10);
+            } else {
+                leo.DiminuirVida(10);
                 System.out.println("Que pena, resposta errada");
-                System.out.println("O correto era: " + lixos[ataque - 1][1] + "\n");
+                System.out.println(
+                        String.format("O descarte correto para %s era %s\n", lixos[ataque][0], lixos[ataque][1]));
             }
 
-            if(vidaInimigo <= 0)
-                ganhou = true;
-
-            if(personagem.getVida() <= 0)
-                perdeu = true;
-
-            System.out.println("Leo: " + personagem.getVida() + " de XP");
-            System.out.println("Capitão lixo: " + vidaInimigo + " de XP");
+            System.out.println("Leo: " + leo.GetVida() + " de XP");
+            System.out.println("Capitão lixo: " + vilao.GetVida() + " de XP");
 
             System.out.println("\n--------------");
         }
 
-        limpaTela();
+        Helper.LimparTela();
 
-        if (ganhou){
-            System.out.println("Leo derrotou o Capitão Lixo e adquiriu 'Resistencia ao Odor' !");
-            //chama a fase 2 ou returna valor true para a classe principal
+        if (leo.GetVida() > 0) {
+            System.out.println("Leo derrotou o Capitão Lixo e adquiriu 'Resistência ao Odor' !");
+            return true;
         }
 
-        if (perdeu){
-            System.out.println("Leo infelizmente não conseguiu derrotar o Capitão Lixo e desmaiou com o cheiro terrível que o cercava!\n");
-            System.out.println("Tentar novamente (1- Sim / 2 - Não)?");
+        System.out.println(
+                "Leo infelizmente não conseguiu derrotar o Capitão Lixo e desmaiou com o cheiro terrível que o cercava!\n");
+        System.out.println("Tentar novamente (1- Sim / 2 - Não)?");
 
-            int escolha = Integer.parseInt(ler.nextLine());
-            
-            if (escolha == 1){
-                limpaTela();
-                Acaofase1(personagem);  
-            }
-            else{
-                System.exit(0);
-            }    
+        int escolha = Helper.ValidarInteiro(ler);
+
+        if (escolha == 2) {
+            System.exit(0);
         }
 
-        ler.close();
+        Helper.LimparTela();
+
+        return false;
+
     }
 
+    private void IntroducaoFase(Scanner ler) {
+
+        // Helper.MensagemContinuar(ler);
+        System.out.println("Dê enter para continuar");
+
+        ler.nextLine();
+
+        Helper.LimparTela();
+
+        System.out.println("Fase 1 - Capitão Lixo");
+        System.out.println(
+                """
+                        \nEm uma manhã ensolarada, Leo decide explorar as ruas da cidade em busca de novos indícios sobre o aumento da poluição que vem observando.
+                        Rapidamente, um odor desagradável invade suas narinas, quando se depara com uma cena desoladora: um monte de lixo se acumula, formando o início de um verdadeiro lixão a céu aberto.
+                        Este é o território do Capitão Lixo, conhecido pelas crianças do bairro por recolher o lixo e acumula-los a frente da sua própria casa.""");
+
+        System.out.println("\nAo ser atacado com o lixo do Capitão Lixo, defina o descarte correto");
+
+        // Helper.MensagemContinuar(ler);
+        System.out.println("Dê enter para continuar");
+
+        ler.nextLine();
+
+        Helper.LimparTela();
+    }
+
+    // Exibe as escolhas disponiveis
+    private void ExibirOpcoes() {
+        System.out.println("\nEscolha onde deve ser o descarte correto");
+
+        for (int i = 0; i < categorias.length; i++) {
+            System.out.println(String.format("%s - %s", i + 1, categorias[i]));
+        }
+    }
+
+    // Checa se a escolha do descarte equivale a categoria do lixo atacado
+    private boolean ValidaEscolha(int lixo, Scanner ler) {
+
+        int escolha = Helper.ValidarInteiro(ler);
+
+        while (escolha < 0 || escolha > categorias.length) {
+            System.out.println("O valor informado inválido");
+            escolha = ler.nextInt();
+        }
+
+        Helper.LimparTela();
+
+        String categoriaEscolhida = categorias[escolha - 1];
+        String categoriaLixoAtacada = lixos[lixo][1];
+
+        if (categoriaEscolhida == categoriaLixoAtacada) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // Retorna o nome do lixo baseado no numero da lista
+    private int ObterAtaque() {
+        // Gera um numero aleatorio entre 1 e o tamanho da lista de lixos
+        int ataque = gerador.nextInt(lixos.length);
+
+        System.out.println(String.format("O Capitão Lixo atacou com %s.", lixos[ataque][0]));
+
+        return ataque;
+    }
 }

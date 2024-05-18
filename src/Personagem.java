@@ -1,17 +1,17 @@
 public class Personagem {
     private int vida = 100;
 
-    public int getVida() {
+    public int GetVida() {
         return vida;
     }
 
     // Define um valor absoluto para a vida do personagem
-    public void setVida(int vida) {
+    public void SetVida(int vida) {
         this.vida = vida;
     }
 
     // Incrementa ou decrementa a vida do personagem
-    public void diminuiVida(int qtd) {
+    public void DiminuirVida(int qtd) {
         this.vida = this.vida - qtd;
     }
 }
