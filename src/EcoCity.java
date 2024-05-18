@@ -1,6 +1,8 @@
 public class EcoCity {
 
     public static void main(String[] args) throws Exception {
+        Helper.LimparTela();
+
         System.out.println(
                 "Bem-Vindo à Eco-City,conhecida por sua convivência harmoniosa com a natureza, mas sinais preocupantes começaram a surgir.");
 
@@ -8,7 +10,7 @@ public class EcoCity {
 
         Leo leo = new Leo();
 
-        Fase fase = new Fase1();
+        Fase fase = new Fase3();  //MUDAR AO TERMINAR
         while (!fase.Jogar(leo)) {
             leo.SetVida(100); // restaura vida do Leo / personagem
         }
