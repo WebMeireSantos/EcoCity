@@ -35,9 +35,7 @@ public class Fase1 extends Fase {
     @Override
     public Boolean Jogar(Leo leo) {
 
-        Vilao vilao = new Vilao(
-
-        );
+        Vilao vilao = new Vilao(100);
 
         IntroducaoFase();
 
@@ -135,7 +133,7 @@ public class Fase1 extends Fase {
         String categoriaEscolhida = categorias[escolha - 1];
         String categoriaLixoAtacada = ataques[escolhaVilao][1];
 
-        if (categoriaEscolhida == categoriaLixoAtacada) {
+        if (categoriaEscolhida.equals(categoriaLixoAtacada)) {
             return true;
         }
 

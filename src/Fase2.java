@@ -36,7 +36,7 @@ public class Fase2 extends Fase {
     @Override
     public Boolean Jogar(Leo leo) {
         Scanner ler = new Scanner(System.in);
-        Vilao vilao = new Vilao();
+        Vilao vilao = new Vilao(100);
 
         IntroducaoFase(ler);
 

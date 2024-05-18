@@ -70,7 +70,7 @@ public class Fase3 extends Fase {
 
         do{
             System.out.println(
-                "Ao chegar ao esconderijo, Leo tem que tomar uma decisão entrar pela porta principal ou procurar uma entrada lateral");
+                "Ao chegar ao esconderijo, Leo tem que tomar uma decisão: entrar pela porta principal ou procurar uma entrada lateral");
             System.out.println("(1- porta principal / 2- entrada lateral)\n");
 
             escolha = Integer.parseInt(ler.nextLine());
@@ -188,15 +188,147 @@ public class Fase3 extends Fase {
         System.out.println("Mas antes de enfrenta-lo, Leo é surpreendido por um dos moradores que chega ofegante.");
         System.out.println("Dona Lúcia entrega a Leo um colar feito de materiais reciclaveis que emana uma energia boa");
         Helper.MensagemContinuar();
-        System.out.println("Leo adquiriu 'Dom da Empatia'");
+        System.out.println("Leo adquiriu 'Dom da Empatia'\n");
         Helper.MensagemContinuar();
 
         Vilao nevoa = new Vilao(100);
 
-        System.out.println("Leo: " + leo.GetVida() + " de XP");
-        System.out.println("Dr. Névoa Negra: " + nevoa.GetVida() + " de XP");
+        //Parte 1 Batalha Dr. Névoa
+        do{
+            System.out.println("Leo: " + leo.GetVida() + " de XP");
+            System.out.println("Dr. Névoa Negra: " + nevoa.GetVida() + " de XP\n");
+            System.out.println("--------------");
+            System.out.println("Dr. Névoa Negra usou Nuvem Tóxica\n");
+            System.out.println("Leo deve usar uma de suas habilidades para contra atacar");
+            ExibirOpcoesDoutor();
+            escolha = Integer.parseInt(ler.nextLine());
+
+            switch (escolha){
+                case 1:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Resistência a Odor");
+                    System.out.println("A nuvem tóxica não causa efeito nenhum em Leo e os moradores.");
+                    System.out.println("Dr. Névoa Negra se frustra");
+                    nevoa.DiminuirVida(40);
+                    break;
+                case 2:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Força do Bem");
+                    System.out.println("Mas não surtiu efeito contra a Nuvem Tóxica");
+                    leo.DiminuirVida(20);
+                    break;
+                case 3:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Dom da Empatia");
+                    System.out.println("Mas não surtiu efeito contra a Nuvem Tóxica");
+                    leo.DiminuirVida(20);
+                    break;
+                default:
+                    Helper.LimparTela();
+                    System.out.println("Escolha inválida");
+            }
+           
+            Helper.MensagemContinuar();
+        }while(escolha !=1 && leo.GetVida() > 0);
+
+//Parte 2 Batalha Dr. Névoa ---------------------------------------------------------------------------------
+        while(escolha!=2 && leo.GetVida() > 0){
+            System.out.println("Leo: " + leo.GetVida() + " de XP");
+            System.out.println("Dr. Névoa Negra: " + nevoa.GetVida() + " de XP\n");
+            System.out.println("--------------");
+            System.out.println("Dr. Névoa Negra usou Explosão de Emissões\n");
+            System.out.println("Leo deve usar uma de suas habilidades para contra atacar");
+            ExibirOpcoesDoutor();
+            escolha = Integer.parseInt(ler.nextLine());
+
+            switch(escolha){
+                case 1:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Resistência a Odor");
+                    System.out.println("Mas não surtiu efeito contra a Explosão de Emissões");
+                    leo.DiminuirVida(20); 
+                    break;
+                case 2:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Força do Bem");
+                    System.out.println("Os moradores motivados a fazer o bem criam uma barricada e não deixam que a explosão afete ninguém");
+                    System.out.println("Dr. Névoa Negra se frustra");
+                    nevoa.DiminuirVida(40);
+                    break;
+                case 3:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Dom da Empatia");
+                    System.out.println("Mas não surtiu efeito contra a Nuvem Tóxica");
+                    leo.DiminuirVida(20);
+                    break;
+                default:
+                    Helper.LimparTela();
+                    System.out.println("Escolha inválida");
+            }
+
+            Helper.MensagemContinuar();
+        }
+
+//Parte 3 Batalha Dr. Névoa ---------------------------------------------------------------------------------
+        while(escolha!=3 && leo.GetVida() > 0){
+            System.out.println("Leo: " + leo.GetVida() + " de XP");
+            System.out.println("Dr. Névoa Negra: " + nevoa.GetVida() + " de XP\n");
+            System.out.println("--------------");
+            System.out.println("Dr. Névoa Negra usou Choro Insurdecedor\n");
+            System.out.println("Leo deve usar uma de suas habilidades para contra atacar");
+            ExibirOpcoesDoutor();
+            escolha = Integer.parseInt(ler.nextLine());
+
+            switch(escolha){
+                case 1:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Resistência a Odor");
+                    System.out.println("Mas não surtiu efeito contra o Choro Ensurdecedor");
+                    leo.DiminuirVida(20); 
+                    break;
+                case 2:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Força do Bem");
+                    System.out.println("Mas não surtiu efeito contra o Choro Ensurdecedor");
+                    leo.DiminuirVida(20);
+                    break;
+                case 3:
+                    Helper.LimparTela();
+                    System.out.println("Leo utilizou a Dom da Empatia");
+                    System.out.println("Leo abraça o Dr. Névoa Negra e explica a gravidade de suas ações!");
+                    nevoa.DiminuirVida(20);
+                    break;
+                default:
+                    Helper.LimparTela();
+                    System.out.println("Escolha inválida");
+            }
+
+            Helper.MensagemContinuar();
+        }
+
+        if(leo.GetVida() > 0){
+            Helper.LimparTela();
+            System.out.println("Leo derrotou o Dr. Névoa Negra\n");
+            Helper.MensagemContinuar();
+            return true;
+        } else {
+            Helper.LimparTela();
+            System.out.println("Leo e os moradores foram derrotados pelo Dr. Névoa Negra\n");
+            System.out.println("Tentar novamente (1- Sim / 2 - Não)?");
+    
+            escolha = Integer.parseInt(ler.nextLine());
+
+            if (escolha == 2) {
+                System.exit(0);
+            }
+
+            Helper.LimparTela();
+
+            Jogar(new Leo());
+        }
 
         return true;
+
     }
 
     private void IntroducaoFase() {
@@ -219,7 +351,7 @@ public class Fase3 extends Fase {
 
     private void BatalhaAleatoria(Leo leo) {
         Scanner ler = new Scanner(System.in);
-        int temVilao = gerador.nextInt(3);
+        int temVilao = gerador.nextInt(2);
 
         if (temVilao == 1) {
             Helper.LimparTela();
@@ -311,5 +443,11 @@ public class Fase3 extends Fase {
         }
 
         return false;
+    }
+
+    private void ExibirOpcoesDoutor() {
+        System.out.println("1- Resistencia ao Odor");
+        System.out.println("2- Força do Bem");
+        System.out.println("3- Dom da Empatia");
     }
 }

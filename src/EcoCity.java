@@ -10,7 +10,7 @@ public class EcoCity {
 
         Leo leo = new Leo();
 
-        Fase fase = new Fase3();  //MUDAR AO TERMINAR
+        Fase fase = new Fase1(); 
         while (!fase.Jogar(leo)) {
             leo.SetVida(100); // restaura vida do Leo / personagem
         }
@@ -24,5 +24,10 @@ public class EcoCity {
         while (!fase.Jogar(leo)) {
             leo.SetVida(100);// restaura vida do Leo / personagem
         }
+
+        System.out.println(
+                "Graças aos esforços de Leo e dos moradores, Eco-City é uma cidade limpa e");
+        System.out.println(
+                "com cidadões conscientes. O ar da cidade é saudável e a vida verde é ambundante!");        
     }
 }
