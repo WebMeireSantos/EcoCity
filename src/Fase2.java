@@ -15,8 +15,8 @@ public class Fase2 extends Fase {
                 { "troca de eletrônicos", "a importância da reciclagem" },
                 { "banho ao se preparar pra festa", "uso consciente da água" },
                 { "descarte do lixo da festa", "a importância da reciclagem" },
-                { "política", "a importância políticas ambientais" },
-                { "reunião do bairro", "a importância políticas ambientais" },
+                { "política", "a importância de políticas ambientais" },
+                { "reunião do bairro", "a importância de políticas ambientais" },
                 { "limpar a casa", "uso consciente da água" },
                 { "higienizar o pet", "uso consciente da água" },
                 { "compra de produtos de limpeza", "não testado em animais" },
@@ -28,14 +28,15 @@ public class Fase2 extends Fase {
                 "utilização de energias renováveis",
                 "não testado em animais",
                 "a importância da reciclagem",
-                "uso consciente da água"
+                "a importância de políticas ambientais",
+                "uso consciente da água",
         };
     }
 
     @Override
     public Boolean Jogar(Leo leo) {
         Scanner ler = new Scanner(System.in);
-        Vilao vilao = new Vilao();
+        Vilao vilao = new Vilao(100);
 
         IntroducaoFase(ler);
 
@@ -46,14 +47,15 @@ public class Fase2 extends Fase {
             ExibirOpcoes();
 
             if (ValidarEscolha(ataque)) {
-
+                Helper.LimparTela();
                 vilao.DiminuirVida(10);
                 System.out.println("Muito bem, você argumentou corretamente\n");
             } else {
+                Helper.LimparTela();
                 leo.DiminuirVida(10);
                 System.out.println("Que pena, resposta errada");
                 System.out.println(
-                        String.format("O descarte correto para %s era %s\n", ataques[ataque][0], ataques[ataque][1]));
+                        String.format("Um bom argumento para %s seria %s\n", ataques[ataque][0], ataques[ataque][1]));
             }
 
             System.out.println("Leo: " + leo.GetVida() + " de XP");
@@ -61,6 +63,8 @@ public class Fase2 extends Fase {
 
             System.out.println("\n--------------");
         }
+
+        Helper.LimparTela();
 
         if (leo.GetVida() > 0) {
             System.out.println("Leo conseguiu conscientizar pessoas ao redor e adquiriu a 'Força do Bem' !");
@@ -83,6 +87,7 @@ public class Fase2 extends Fase {
     }
 
     private void IntroducaoFase(Scanner ler) {
+        System.out.println("Fase 2 - Conscientização durante a festa na floresta");
         System.out.println(
                 "Leo é convidado para uma festa na rua da floresta, onde um deck próximo ao lago é o ponto de encontro para comemorações jovens.");
         System.out.println(
@@ -95,7 +100,7 @@ public class Fase2 extends Fase {
         // Gera um numero aleatorio entre 1 e o tamanho da lista de lixos
         int ataque = gerador.nextInt(ataques.length);
 
-        System.out.println(String.format("\nO assunto da conversa agora é %s.", ataques[ataque][0]));
+        System.out.println(String.format("\nO assunto da conversa agora é '%s'.", ataques[ataque][0]));
 
         return ataque;
     }

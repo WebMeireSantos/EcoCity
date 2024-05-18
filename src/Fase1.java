@@ -35,7 +35,7 @@ public class Fase1 extends Fase {
     @Override
     public Boolean Jogar(Leo leo) {
 
-        Vilao vilao = new Vilao();
+        Vilao vilao = new Vilao(100);
 
         IntroducaoFase();
 
@@ -47,9 +47,11 @@ public class Fase1 extends Fase {
             ExibirOpcoes();
 
             if (ValidarEscolha(ataque)) {
+                Helper.LimparTela();
                 vilao.DiminuirVida(10);
                 System.out.println("Muito bem, você descartou corretamente\n");
             } else {
+                Helper.LimparTela();
                 leo.DiminuirVida(10);
                 System.out.println("Que pena, resposta errada");
                 System.out.println(
@@ -92,7 +94,7 @@ public class Fase1 extends Fase {
 
         Helper.MensagemContinuar();
 
-        System.out.println("Fase 1 - Capitão Lixo");
+        System.out.println("Fase 1 - Luta conta a sujeira nas ruas");
         System.out.println(
                 "\nEm uma manhã ensolarada, Leo decide explorar as ruas da cidade em busca de novos indícios sobre o aumento da poluição que vem observando.");
         System.out.println(
@@ -123,7 +125,7 @@ public class Fase1 extends Fase {
 
         while (escolha < 0 || escolha > categorias.length) {
             ler = new Scanner(System.in);
-            System.out.println("O valor informado inválido");
+            System.out.println("O valor informado é inválido");
             escolha = Integer.parseInt(ler.nextLine());
             ler.close();
         }
@@ -131,7 +133,7 @@ public class Fase1 extends Fase {
         String categoriaEscolhida = categorias[escolha - 1];
         String categoriaLixoAtacada = ataques[escolhaVilao][1];
 
-        if (categoriaEscolhida == categoriaLixoAtacada) {
+        if (categoriaEscolhida.equals(categoriaLixoAtacada)) {
             return true;
         }
 
