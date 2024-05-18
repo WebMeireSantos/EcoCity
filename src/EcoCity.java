@@ -9,14 +9,14 @@ public class EcoCity {
         Leo leo = new Leo();
 
         Fase fase = new Fase1();
-        // while (!fase.Jogar(leo)) {
-        // leo.SetVida(100); // restaura vida do Leo / personagem
-        // }
+        while (!fase.Jogar(leo)) {
+            leo.SetVida(100); // restaura vida do Leo / personagem
+        }
 
-        // fase = new Fase2();
-        // while (!fase.Jogar(leo)) {
-        // leo.SetVida(100); // restaura vida do Leo / personagem
-        // }
+        fase = new Fase2();
+        while (!fase.Jogar(leo)) {
+            leo.SetVida(100); // restaura vida do Leo / personagem
+        }
 
         fase = new Fase3();
         while (!fase.Jogar(leo)) {
